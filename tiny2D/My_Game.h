@@ -66,7 +66,6 @@ namespace My_Game
 
 	void set_chain(Vec2D::Vec2D *p, Vec2D::Vec2D *e);
 
-
 	void init(int screen_w, int screen_h)
 	{
 		srand(time(0));
@@ -253,7 +252,6 @@ namespace My_Game
 			}
 
 			//ENEMY WALL COLLISION
-
 			Grid::Region region;
 			Actor::get_Grid_Collision(&region, &World::collision, i, &World::enemy);
 
@@ -287,7 +285,6 @@ namespace My_Game
 			Actor::set_Pos(i, pos.x, pos.y, &World::enemy);
 
 			Grid::imprint_Set(&World::imprint, i, Actor::get_World_Coord(i, &World::enemy));
-
 		}
 
 		//BULLET COLLISION

@@ -83,46 +83,46 @@ c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_g
 c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(35): warning C4305: 'initializing': truncation from 'double' to 'float'
 c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(36): warning C4305: 'initializing': truncation from 'double' to 'float'
 c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(41): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(72): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(133): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(71): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(132): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(141): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(142): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(143): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(151): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(156): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(156): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(161): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(161): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(166): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(166): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(171): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(171): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(181): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(183): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(150): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(155): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(155): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(160): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(160): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(165): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(165): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(170): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(170): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(180): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(182): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(197): warning C4305: '*=': truncation from 'double' to 'float'
 c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(198): warning C4305: '*=': truncation from 'double' to 'float'
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(199): warning C4305: '*=': truncation from 'double' to 'float'
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(247): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(247): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(268): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(268): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(286): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(298): warning C4018: '>': signed/unsigned mismatch
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(319): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(319): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(354): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(354): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(355): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(355): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(356): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(356): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(363): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(246): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(246): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(266): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(266): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(284): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(295): warning C4018: '>': signed/unsigned mismatch
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(316): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(316): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(351): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(351): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(352): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(352): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(353): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(353): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(360): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(406): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(407): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(408): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(409): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(410): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(411): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(412): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(527): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(528): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
 c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(529): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(530): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(531): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(525): warning C4101: 'distance_tmp': unreferenced local variable
+c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\my_game.h(523): warning C4101: 'distance_tmp': unreferenced local variable
 c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\main_my_game.cpp(23): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 c:\users\crbro\desktop\projects!!!!\voronoi flail\levent_development\tiny2d\main_my_game.cpp(36): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 main_my_game.obj : warning LNK4248: unresolved typeref token (01000015) for 'SDL_Renderer'; image may not run
