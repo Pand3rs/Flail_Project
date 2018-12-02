@@ -1,5 +1,6 @@
 #pragma once
 
+#include "include/Stack_core.h"
 #include "include/Engine_core.h"
 #include "include/Light_core.h"
 #include "include/Actor_core.h"
@@ -17,7 +18,7 @@ namespace My_Game
 			int player_force_mag = 250;
 			float player_clip = 10.0;
 
-			int bullet_life = 4000;
+			int bullet_life = 5000;
 			float bullet_force_magnitude = 600;
 			float bullet_clip = 16.0;
 			unsigned int last_bullet_time = 0;
@@ -25,20 +26,20 @@ namespace My_Game
 
 			int num_enemies = 10;
 		
-			int min_chain_len = 9;
-			int max_chain_len = 20;
+			int min_chain_len = 2;
+			int max_chain_len = 40;
 			int flail_link_force_min = 50;
 			int flail_link_force_max = 50;
 
-			float separation_force_mag = 14.0 / 2;
-			float cohesion_force_mag = 14.0 / 2;
-			float alignment_force_mag = 1.0 / 2;
-			float target_force_mag = 64 / 2;
-			float obstacle_force_mag = 32.0 / 2;
+			float separation_force_mag = 0.2 / 2;
+			float cohesion_force_mag = 0.2 / 2;
+			float alignment_force_mag = 0.2 / 2;
+			float target_force_mag = 14 / 2;
+			//float obstacle_force_mag = 32.0 / 2;
 
-			float obstacle_radius = 2.0;
-			float separation_radius = 0.5;
-			float cohesion_radius = 5.0;
+			//float obstacle_radius = 2.0;
+			float separation_radius = 0.2;
+			float cohesion_radius = 2.0;
 		}
 
 		Tileset::Tileset tileset;
@@ -57,10 +58,14 @@ namespace My_Game
 		Grid_Camera::Grid_Camera camera;
 
 		Vec2D::Vec2D mouse_grid_point;
-		Vec2D::Vec2D 
-
+		Vec2D::Vec2D *chain;
+		Vec2D::Vec2D calm_chain_distance = { 2, 2 };
+		Stack::Stack links;
 		int *neighbor_array = NULL;
 	}
+
+	void set_chain(Vec2D::Vec2D *p, Vec2D::Vec2D *e);
+
 
 	void init(int screen_w, int screen_h)
 	{
@@ -87,7 +92,9 @@ namespace My_Game
 
 		Particle::init(&World::flail_link, "box.txt", 4096, Engine::renderer);
 
-		World::neighbor_array = (int *)malloc(sizeof(int) * 4096);/////////////n_boids?
+		World::chain = (Vec2D::Vec2D*)malloc(sizeof(int) * World::Parameters::max_chain_len);
+		Stack::init(&World::links, World::Parameters::max_chain_len);
+		World::neighbor_array = (int *)malloc(sizeof(int) * 4096);
 
 		Grid_Camera::init(&World::camera, Engine::screen_width, Engine::screen_height);
 	}
@@ -131,6 +138,7 @@ namespace My_Game
 	{
 		Engine::event_Loop();
 
+		//UPDATE CAMERA
 		World::camera.world_coord.x = Actor::get_World_Coord(0, &World::player)->x - 0.5*World::camera.world_coord.w;
 		World::camera.world_coord.y = Actor::get_World_Coord(0, &World::player)->y - 0.5*World::camera.world_coord.h;
 
@@ -142,6 +150,7 @@ namespace My_Game
 		Grid_Camera::calibrate(&World::camera);
 		Grid_Camera::screen_to_Grid(&World::mouse_grid_point, Input::mouse_x, Input::mouse_y, &World::camera);
 
+		//INPUT
 		if (Input::keys[SDL_SCANCODE_A])
 		{
 			Vec2D::Vec2D force = { -1 * World::Parameters::player_force_mag,0 };
@@ -184,13 +193,14 @@ namespace My_Game
 			}
 		}
 
+		//UPDATE PLAYER
 		Actor::update_Vel(0, &World::player, dt);
 		Actor::get_Vel(0, &World::player)->x *= 0.95;
 		Actor::get_Vel(0, &World::player)->y *= 0.95;
 		Vec2D::clip(Actor::get_Vel(0, &World::player), -1 * World::Parameters::player_clip, World::Parameters::player_clip, -1 * World::Parameters::player_clip, World::Parameters::player_clip);
 		Actor::update_Pos(0, &World::player, dt);
 
-		//establish imprint grid
+		//RESET COLLISION GRID
 		int len = World::imprint.n_rows*World::imprint.n_cols;
 		for (int i = 0; i < len; i++)
 		{
@@ -280,7 +290,7 @@ namespace My_Game
 
 		}
 
-		//BULLET COLLISION problems @345 collision
+		//BULLET COLLISION
 		for (int i = 0; i < World::bullet.array_size; i++)
 		{
 			if (Actor::is_Spawned(i, &World::bullet) == 0) continue;
@@ -296,7 +306,7 @@ namespace My_Game
 			Vec2D::clip(Actor::get_Vel(i, &World::bullet), -1 * World::Parameters::bullet_clip, World::Parameters::bullet_clip, -1 * World::Parameters::bullet_clip, World::Parameters::bullet_clip);
 
 			Grid::Region region;
-			Actor::get_Grid_Collision(&region, &World::collision, i, &World::bullet);//may need to clip
+			Actor::get_Grid_Collision(&region, &World::collision, i, &World::bullet);
 
 			for (int y = region.first_row; y <= region.last_row; y++)
 			{
@@ -328,8 +338,9 @@ namespace My_Game
 						int r = Shape::Rect::collision(bullet_world, enemy_world);
 						
 						if (r == 1)
-						{
-							//printf("current time %d, dt %d\n", current_time, dt);
+						{	
+							if (Actor::is_Spawned(i, &World::bullet) == 0) continue;
+
 							Vec2D::Vec2D *bullet_vel = Actor::get_Vel(i, &World::bullet);
 							Vec2D::Vec2D *enemy_vel = Actor::get_Vel(enemy_id, &World::enemy);
 
@@ -345,13 +356,14 @@ namespace My_Game
 							Vec2D::Vec2D pos = { enemy_world->x + 0.5*enemy_world->w, enemy_world->y + 0.5*enemy_world->h };
 
 							//edited initial vel, was blank. May need to offset to make it go to center of player for aesthetics
-							Vec2D::Vec2D initial_vel = { (pos.x - p_pos->x), (pos.y - p_pos->y) };		//FIX RIGHT/BOTTOM SIDE ERROR
+							Vec2D::Vec2D initial_vel = { (pos.x - p_pos->x), (pos.y - p_pos->y) };
 							Vec2D::norm(&initial_vel);
 
-							//edited time to create chain
-							Particle::spawn(&World::flail_link, 1, 0.4, &pos, &initial_vel, &f_min, &f_max, 4000, 4000, current_time);
-							///add particle to flail chain
-							///edit its creation time so it doesnt die
+							//spawn particle and push to links
+							int particle_id = Particle::spawn(&World::flail_link, 1, 0.4, &pos, &initial_vel, &f_min, &f_max, 5000, 5000, current_time);
+							printf("spawn: %d, %d\n", particle_id, enemy_id);
+							Stack::push_chain(&World::links, particle_id, enemy_id);
+							///edit its creation time
 							Actor::destroy(i, &World::bullet);
 						}
 					}
@@ -360,14 +372,16 @@ namespace My_Game
 			Actor::update_Pos(i, &World::bullet, dt);
 		}
 
-		//FLOCK CHAIN
+		//UPDATE CHAIN
 		if (World::flail_link.spawn_stack.n_unspawned < World::flail_link.spawn_stack.array_size)
 		{
+			//clear collision grid
 			for (int i = 0; i < World::particle_imprint.n_cols*World::particle_imprint.n_rows; i++)
 			{
 				World::particle_imprint.data[i] = -1;
 			}
 
+			//fill collision grid
 			for (int i = 0; i < World::flail_link.array_size; i++)
 			{
 				if (Particle::is_Spawned(i, &World::flail_link) == 0) continue;
@@ -375,6 +389,7 @@ namespace My_Game
 				Grid::imprint_Set(&World::particle_imprint, i, Particle::get_World_Coord(i, &World::flail_link));
 			}
 
+			//update chain
 			for (int i = 0; i < World::flail_link.array_size; i++)
 			{
 				if (Particle::is_Spawned(i, &World::flail_link) == 0) continue;
@@ -389,16 +404,16 @@ namespace My_Game
 
 				Shape::Rect::Data *particle_world = Particle::get_World_Coord(i, &World::flail_link);
 
-				//cohesion distance			
+				//create cohesion box			
 				Shape::Rect::Data cohesion_box;
 				cohesion_box.w = 2.0*World::Parameters::cohesion_radius;
 				cohesion_box.h = 2.0*World::Parameters::cohesion_radius;
 				cohesion_box.x = particle_world->x - 0.5*cohesion_box.w;
 				cohesion_box.y = particle_world->y - 0.5*cohesion_box.h;
 
-				memset(World::neighbor_array, 0, sizeof(int)*World::flail_link.array_size);////memory violation//////////////////////////////////////////////////////////////
-			
-				//create region
+				memset(World::neighbor_array, 0, sizeof(int)*World::flail_link.array_size);
+
+				//fill region
 				Grid::Region region;
 				Grid::get_Region_Under_Shape(&region, &cohesion_box);
 				Grid::clip_Grid_Region(&region, World::map.n_cols, World::map.n_rows);
@@ -407,7 +422,7 @@ namespace My_Game
 				Vec2D::Vec2D avg_pos = { 0,0 };
 				Vec2D::Vec2D avg_vel = { 0,0 };
 
-				//seperation force
+				//Seperation force
 				for (int y = region.first_row; y <= region.last_row; y++)
 				{
 					for (int x = region.first_col; x <= region.last_col; x++)
@@ -427,6 +442,7 @@ namespace My_Game
 							Vec2D::Vec2D *neighbor_pos = Particle::get_Pos(k, &World::flail_link);
 							float distance = sqrt((neighbor_pos->x - particle_world->x)*(neighbor_pos->x - particle_world->x) + (neighbor_pos->y - particle_world->y)*(neighbor_pos->y - particle_world->y));
 
+							//seperation radius check/force
 							if (distance <= World::Parameters::separation_radius)
 							{
 								Vec2D::Vec2D separation_force = { particle_world->x - neighbor_pos->x,particle_world->y - neighbor_pos->y };
@@ -436,6 +452,7 @@ namespace My_Game
 								Particle::add_Force(i, &World::flail_link, &separation_force);
 							}
 
+							//check cohesion distance/add up neighbors for average
 							if (distance <= World::Parameters::cohesion_radius)
 							{
 								avg_pos.x += neighbor_pos->x;
@@ -451,8 +468,7 @@ namespace My_Game
 					}
 				}
 
-				//Cohesion force
-				
+				//Cohesion and alignment force				
 				if (n_neighbors != 0)
 				{
 					avg_pos.x /= n_neighbors;
@@ -473,13 +489,34 @@ namespace My_Game
 
 					Particle::add_Force(i, &World::flail_link, &alignment_force);
 				}
+			
+				//target force
+				set_chain(Actor::get_Pos(0, &World::player), Actor::get_Pos(World::links.enemy_id, &World::enemy));
+				printf("call: %d\n", World::links.enemy_id);
+				
+				//chain wip
+				for (int i = 0; i < World::links.n_data; i++)
+				{
+					Vec2D::Vec2D *pos = Particle::get_Pos(World::links.data[i] , &World::flail_link);
+					Vec2D::Vec2D target_force = { World::chain[i].x - pos->x, World::chain[i].y - pos->y };
+					
+					if (target_force.x < World::calm_chain_distance.x && target_force.y < World::calm_chain_distance.y)
+					{
+						target_force.x *= .5;
+						target_force.y *= .5;
+					}
+
+					Vec2D::norm(&target_force);
+					Vec2D::scale(&target_force, World::Parameters::target_force_mag);
+					Particle::add_Force(i, &World::flail_link, &target_force);
+				}
 			}
 		}
 
 		Particle::update_Vel_and_Life(&World::flail_link, current_time, dt);
 		Particle::update_Pos(&World::flail_link, current_time, dt);
 
-		//Voronoi, move to function later
+		//VORONOI
 		for (int x = 1; x < World::map.n_cols - 1; x++)
 		{
 			for (int y = 1; y < World::map.n_rows - 1; y++)
@@ -503,6 +540,19 @@ namespace My_Game
 			}
 		}
 	}
+
+	//SET CHAIN wip
+	void set_chain(Vec2D::Vec2D *p, Vec2D::Vec2D *e)
+	{
+		float increment_x = (e->x - p->x) / World::Parameters::min_chain_len;
+		float increment_y = (e->y - p->y) / World::Parameters::min_chain_len;
+		for (int i = 0; i < World::Parameters::min_chain_len; i++)
+		{
+			World::chain[i].x = e->x + increment_x * i;
+			World::chain[i].y = e->y + increment_y * i;
+		}
+	}
+
 	void draw(unsigned int current_time)
 	{
 		SDL_RenderClear(Engine::renderer);

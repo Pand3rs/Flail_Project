@@ -66,11 +66,12 @@ namespace Particle
 	int spawn(Emitter *e, int how_many, float scale, const Vec2D::Vec2D *pos, const Vec2D::Vec2D *initial_vel, const Vec2D::Vec2D *force_min, const Vec2D::Vec2D *force_max,int min_life, int max_life, unsigned int current_time)
 	{
 		int spawned_count = 0;
+		int k = 0;  //rb edit didnt exist
 
 		e->emitter_world_coords = *pos;
 		for (int i = 0; i < how_many; i++)
 		{
-			int k = Spawn_Stack::make(&e->spawn_stack);
+			k = Spawn_Stack::make(&e->spawn_stack);//rb edit was int k
 			
 			if (k < 0) break;
 
@@ -94,7 +95,7 @@ namespace Particle
 			e->sprites.instances.frame_duration[k] = 100;
 		}
 
-		return spawned_count;
+		return k;//rb edit was    return spawned_count;
 	}
 
 	int is_Spawned(int which_particle, const Emitter *e)

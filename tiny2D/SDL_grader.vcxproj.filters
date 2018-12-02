@@ -137,5 +137,8 @@
     <ClInclude Include="temp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Stack_core.h">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

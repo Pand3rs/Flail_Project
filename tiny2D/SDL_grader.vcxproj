@@ -151,6 +151,7 @@
     <ClInclude Include="include\Spawn_Stack_data.h" />
     <ClInclude Include="include\Sprite_core.h" />
     <ClInclude Include="include\Sprite_data.h" />
+    <ClInclude Include="include\Stack_core.h" />
     <ClInclude Include="include\Table_File_core.h" />
     <ClInclude Include="include\Table_File_data.h" />
     <ClInclude Include="include\Texture_core.h" />

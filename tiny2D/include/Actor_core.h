@@ -302,7 +302,6 @@ namespace Actor
 		return f->spawn_stack.spawned[which_actor];
 	}
 
-
 	void get_Grid_Collision(Grid::Region *r, const Grid::Grid *g, int which_actor, const Factory *f)
 	{
 		*r = {};
