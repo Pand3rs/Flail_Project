@@ -16,7 +16,7 @@ namespace My_Game
 		{
 			Vec2D::Vec2D player_spawn_point = {4, 4};
 			int player_force_mag = 250;
-			float player_clip = 10.0;
+			float player_clip = 5.0;
 
 			int bullet_life = 5000;
 			float bullet_force_magnitude = 600;
@@ -24,17 +24,18 @@ namespace My_Game
 			unsigned int last_bullet_time = 0;
 			unsigned int bullet_freq = 120;
 
-			int num_enemies = 10;
+			int num_enemies = 2;
 		
-			int min_chain_len = 2;
-			int max_chain_len = 40;
+			int chain_segments = 11;//-flail = 10 links
+			int chain_stretch_limit = 8;
 			int flail_link_force_min = 50;
 			int flail_link_force_max = 50;
+			float link_clip = 0.4;
 
-			float separation_force_mag = 0.2 / 2;
-			float cohesion_force_mag = 0.2 / 2;
-			float alignment_force_mag = 0.2 / 2;
-			float target_force_mag = 14 / 2;
+			float separation_force_mag = 0.0 / 2;
+			float cohesion_force_mag = 0.0 / 2;
+			float alignment_force_mag = 0.0 / 2;
+			float target_force_mag = 6 / 2;
 			//float obstacle_force_mag = 32.0 / 2;
 
 			//float obstacle_radius = 2.0;
@@ -59,12 +60,12 @@ namespace My_Game
 
 		Vec2D::Vec2D mouse_grid_point;
 		Vec2D::Vec2D *chain;
-		Vec2D::Vec2D calm_chain_distance = { 2, 2 };
+		Vec2D::Vec2D calm_chain_distance = { 0.2, 0.2 };
 		Stack::Stack links;
 		int *neighbor_array = NULL;
 	}
 
-	void set_chain(Vec2D::Vec2D *p, Vec2D::Vec2D *e);
+	void set_chain(int player_id, int target_enemy_id);
 
 	void init(int screen_w, int screen_h)
 	{
@@ -91,8 +92,8 @@ namespace My_Game
 
 		Particle::init(&World::flail_link, "box.txt", 4096, Engine::renderer);
 
-		World::chain = (Vec2D::Vec2D*)malloc(sizeof(int) * World::Parameters::max_chain_len);
-		Stack::init(&World::links, World::Parameters::max_chain_len);
+		World::chain = (Vec2D::Vec2D*)malloc(sizeof(int) * World::Parameters::chain_stretch_limit);
+		Stack::init(&World::links, World::Parameters::chain_stretch_limit);
 		World::neighbor_array = (int *)malloc(sizeof(int) * 4096);
 
 		Grid_Camera::init(&World::camera, Engine::screen_width, Engine::screen_height);
@@ -102,10 +103,10 @@ namespace My_Game
 	{
 		World::camera.world_coord.x = 0;
 		World::camera.world_coord.y = 0;
-		World::camera.world_coord.w = 50;
-		World::camera.world_coord.h = World::camera.world_coord.w * Engine::screen_height / Engine::screen_width;
+		World::camera.world_coord.w = 40;
+		World::camera.world_coord.h = 30;
 
-		int player_id = Actor::spawn(&World::player, 4.0, current_time);
+		int player_id = Actor::spawn(&World::player, 2.0, current_time);
 		float x = World::Parameters::player_spawn_point.x;
 		float y = World::Parameters::player_spawn_point.y;
 		Actor::set_Pos(player_id, x, y, &World::player);
@@ -123,13 +124,19 @@ namespace My_Game
 		}
 		}*/
 
-		for (int i = 0; i < World::Parameters::num_enemies; i++)
+		//disabled spawning for testing
+		/*for (int i = 0; i < World::Parameters::num_enemies; i++)
 		{
 			double x = 1.0 + (World::map.n_cols - 2) * rand() / RAND_MAX;
 			double y = 1.0 + (World::map.n_rows - 2) * rand() / RAND_MAX;
 
 			int enemy_id = Actor::spawn(&World::enemy, 2.0, current_time);
 			Actor::set_Pos(enemy_id, x, y, &World::enemy);
+		}*/
+		for (int i = 1; i < World::Parameters::num_enemies + 1; i++)
+		{
+			int enemy_id = Actor::spawn(&World::enemy, 1.0, current_time);
+			Actor::set_Pos(enemy_id, i*15, i*10, &World::enemy);
 		}
 	}
 
@@ -357,11 +364,13 @@ namespace My_Game
 							Vec2D::norm(&initial_vel);
 
 							//spawn particle and push to links
-							int particle_id = Particle::spawn(&World::flail_link, 1, 0.4, &pos, &initial_vel, &f_min, &f_max, 5000, 5000, current_time);
-							printf("spawn: %d, %d\n", particle_id, enemy_id);
-							Stack::push_chain(&World::links, particle_id, enemy_id);
-							///edit its creation time
-							Actor::destroy(i, &World::bullet);
+							if (World::links.n_data < World::Parameters::chain_segments - 1)
+							{
+								int particle_id = Particle::spawn(&World::flail_link, 1, 0.2, &pos, &initial_vel, &f_min, &f_max, 2000, 2000, current_time);
+								Stack::push_chain(&World::links, particle_id, enemy_id);
+								///edit its creation time
+							}
+							Actor::destroy(i, &World::bullet);							
 						}
 					}
 				}
@@ -372,6 +381,12 @@ namespace My_Game
 		//UPDATE CHAIN
 		if (World::flail_link.spawn_stack.n_unspawned < World::flail_link.spawn_stack.array_size)
 		{
+			//calc chain links pos if enemy hit
+			if (World::links.enemy_id != -1)
+			{
+				set_chain(0, World::links.enemy_id);
+			}
+
 			//clear collision grid
 			for (int i = 0; i < World::particle_imprint.n_cols*World::particle_imprint.n_rows; i++)
 			{
@@ -486,33 +501,34 @@ namespace My_Game
 
 					Particle::add_Force(i, &World::flail_link, &alignment_force);
 				}
-			
-				//target force
-				set_chain(Actor::get_Pos(0, &World::player), Actor::get_Pos(World::links.enemy_id, &World::enemy));
-				printf("call: %d\n", World::links.enemy_id);
 				
-				//chain wip
-				for (int i = 0; i < World::links.n_data; i++)
+				//target force
+				if (World::links.enemy_id != -1)
 				{
-					Vec2D::Vec2D *pos = Particle::get_Pos(World::links.data[i] , &World::flail_link);
-					Vec2D::Vec2D target_force = { World::chain[i].x - pos->x, World::chain[i].y - pos->y };
-					
-					if (target_force.x < World::calm_chain_distance.x && target_force.y < World::calm_chain_distance.y)
+					for (int i = 0; i < World::links.n_data; i++)
 					{
-						target_force.x *= .5;
-						target_force.y *= .5;
-					}
+						World::flail_link.creation_time[i] = current_time;
+						Vec2D::Vec2D *pos = Particle::get_Pos(World::links.data[i], &World::flail_link);
+						Vec2D::Vec2D target_force = { World::chain[i+1].x - pos->x, World::chain[i+1].y - pos->y };
+						float m = Vec2D::norm(&target_force);
 
-					Vec2D::norm(&target_force);
-					Vec2D::scale(&target_force, World::Parameters::target_force_mag);
-					Particle::add_Force(i, &World::flail_link, &target_force);
+						//slow step
+						if (m < 0.5)
+						{							
+							Vec2D::clip(Particle::get_Vel(i, &World::flail_link), -1 * World::Parameters::link_clip, World::Parameters::link_clip, -1 * World::Parameters::link_clip, World::Parameters::link_clip);
+							Particle::add_Force(i, &World::flail_link, &target_force);
+							continue;
+						}
+
+						Vec2D::scale(&target_force, World::Parameters::target_force_mag);
+						Particle::add_Force(i, &World::flail_link, &target_force);
+					}
 				}
 			}
 		}
-
 		Particle::update_Vel_and_Life(&World::flail_link, current_time, dt);
 		Particle::update_Pos(&World::flail_link, current_time, dt);
-
+		
 		//VORONOI
 		for (int x = 1; x < World::map.n_cols - 1; x++)
 		{
@@ -538,16 +554,36 @@ namespace My_Game
 		}
 	}
 
-	//SET CHAIN wip
-	void set_chain(Vec2D::Vec2D *p, Vec2D::Vec2D *e)
+	//SET CHAIN    add facing later
+	void set_chain(int player_id, int target_enemy_id)			//TO DO: if incriment is to big and chain is full then drag flail
 	{
-		float increment_x = (e->x - p->x) / World::Parameters::min_chain_len;
-		float increment_y = (e->y - p->y) / World::Parameters::min_chain_len;
-		for (int i = 0; i < World::Parameters::min_chain_len; i++)
+		Shape::Rect::Data *p = Actor::get_World_Coord(player_id, &World::player);
+		Shape::Rect::Data *e = Actor::get_World_Coord(target_enemy_id, &World::enemy);
+		float mag = (e->x - p->x) * (e->x - p->x) + (e->y - p->y) * (e->y - p->y);
+		float length = sqrt(mag);
+		printf("length: %f\n", length);
+
+		if (length < World::Parameters::chain_stretch_limit)
 		{
-			World::chain[i].x = e->x + increment_x * i;
-			World::chain[i].y = e->y + increment_y * i;
+			float incriment_x = ((p->x + p->w / 2) - (e->x + e->w / 2)) / World::Parameters::chain_segments;
+			float incriment_y = ((p->y + p->h / 2) - (e->y + e->h / 2)) / World::Parameters::chain_segments;
+			
+			for (int i = 0; i < World::Parameters::chain_segments; i++)
+			{
+				World::chain[i].x = (e->x + e->w / 2) + incriment_x * i;
+				World::chain[i].y = (e->y + e->h / 2) + incriment_y * i;
+			}
+
+			if (length > World::Parameters::chain_stretch_limit - 2)  //goes opposite way
+			{
+				Vec2D::Vec2D force = { ((p->x + p->w / 2) - (e->x + e->w / 2)) * ((p->x + p->w / 2) - (e->x + e->w / 2)), ((p->y + p->h / 2) - (e->y + e->h / 2)) *((p->y + p->h / 2) - (e->y + e->h / 2)) };
+				//Vec2D::Vec2D force = { ((e->x + e->w / 2) - (p->x + p->w / 2)) * ((e->x + e->w / 2) - (p->x + p->w / 2)), ((e->y + e->h / 2) - (p->y + p->h / 2)) *((e->y + e->h / 2) - (p->y + p->h / 2)) };
+				Vec2D::norm(&force);
+				Actor::add_Force(target_enemy_id, &World::enemy, &force);
+			}
+			return;
 		}
+		else Stack::clear(&World::links);
 	}
 
 	void draw(unsigned int current_time)

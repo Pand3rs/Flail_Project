@@ -25,7 +25,7 @@ namespace Stack
 		assert(initial_size != 0);
 		c->n_data = 0;
 		c->size = initial_size;
-		c->enemy_id = 0;
+		c->enemy_id = -1;
 		c->data = (int*)malloc(sizeof(int)*c->size); assert(c->data);
 	}
 
@@ -50,6 +50,7 @@ namespace Stack
 	void clear(Stack *c)
 	{
 		c->n_data = 0;
+		c->enemy_id = -1;
 	}
 
 	void cleanup(Stack *c)

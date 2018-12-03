@@ -38,7 +38,7 @@ int main(int argc, char **argv)
 			t1 = t2;
 
 			measure_frame = 0;
-			printf("frame time: %f msec\n", frame_time);
+			//printf("frame time: %f msec\n", frame_time);
 		}
 	}
 
