@@ -1,0 +1,12 @@
+﻿  main.cpp
+c:\users\ryan\desktop\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(28): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\ryan\desktop\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(75): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\ryan\desktop\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(76): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\ryan\desktop\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(259): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\ryan\desktop\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(260): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\ryan\desktop\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(286): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ryan\desktop\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(285): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ryan\desktop\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(284): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ryan\desktop\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(283): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ryan\desktop\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(295): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  SDL_intro.vcxproj -> C:\Users\Ryan\Desktop\Levent_Development\game_development_using_C++_final\SDL_solution\Debug\SDL_intro.exe
