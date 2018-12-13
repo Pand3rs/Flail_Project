@@ -1,0 +1,11 @@
+﻿  main.cpp
+main.obj : error LNK2001: unresolved external symbol SDL_GetKeyboardState
+main.obj : error LNK2001: unresolved external symbol SDL_RenderClear
+main.obj : error LNK2001: unresolved external symbol SDL_Init
+main.obj : error LNK2001: unresolved external symbol SDL_PollEvent
+main.obj : error LNK2001: unresolved external symbol SDL_CreateRenderer
+main.obj : error LNK2001: unresolved external symbol SDL_RenderPresent
+main.obj : error LNK2001: unresolved external symbol SDL_CreateWindow
+main.obj : error LNK2001: unresolved external symbol SDL_SetRenderDrawColor
+MSVCRT.lib(exe_main.obj) : error LNK2001: unresolved external symbol main
+C:\Users\crbro\Documents\GitHub\Levent_Development\game_development_using_C++_final\SDL_solution\x64\Release\SDL_intro.exe : fatal error LNK1120: 9 unresolved externals

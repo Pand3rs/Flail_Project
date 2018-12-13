@@ -1,0 +1,13 @@
+﻿  main.cpp
+main.obj : error LNK2019: unresolved external symbol SDL_CreateWindow referenced in function "void __cdecl Simulation::init(void)" (?init@Simulation@@YAXXZ)
+main.obj : error LNK2019: unresolved external symbol SDL_GetKeyboardState referenced in function "void __cdecl Simulation::init(void)" (?init@Simulation@@YAXXZ)
+main.obj : error LNK2019: unresolved external symbol SDL_PollEvent referenced in function "void __cdecl Simulation::update(void)" (?update@Simulation@@YAXXZ)
+main.obj : error LNK2019: unresolved external symbol SDL_CreateRenderer referenced in function "void __cdecl Simulation::init(void)" (?init@Simulation@@YAXXZ)
+main.obj : error LNK2019: unresolved external symbol SDL_SetRenderDrawColor referenced in function "void __cdecl Simulation::draw(void)" (?draw@Simulation@@YAXXZ)
+main.obj : error LNK2019: unresolved external symbol SDL_RenderClear referenced in function "void __cdecl Simulation::draw(void)" (?draw@Simulation@@YAXXZ)
+main.obj : error LNK2019: unresolved external symbol SDL_RenderPresent referenced in function "void __cdecl Simulation::draw(void)" (?draw@Simulation@@YAXXZ)
+main.obj : error LNK2019: unresolved external symbol SDL_Init referenced in function "void __cdecl Simulation::init(void)" (?init@Simulation@@YAXXZ)
+MSVCRTD.lib(exe_main.obj) : error LNK2019: unresolved external symbol main referenced in function "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ)
+SDL2-2.0.8\lib\x86\SDL2.lib : warning LNK4272: library machine type 'x86' conflicts with target machine type 'x64'
+SDL2-2.0.8\lib\x86\SDL2main.lib : warning LNK4272: library machine type 'x86' conflicts with target machine type 'x64'
+C:\Users\crbro\Documents\GitHub\Levent_Development\game_development_using_C++_final\SDL_solution\x64\Debug\SDL_intro.exe : fatal error LNK1120: 9 unresolved externals

@@ -1,0 +1,12 @@
+﻿  main.cpp
+c:\users\crbro\documents\github\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(28): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\crbro\documents\github\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(73): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\crbro\documents\github\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(74): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\crbro\documents\github\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(240): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\crbro\documents\github\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(241): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\crbro\documents\github\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(267): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\crbro\documents\github\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(266): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\crbro\documents\github\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(265): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\crbro\documents\github\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(264): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\crbro\documents\github\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(276): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  SDL_intro.vcxproj -> C:\Users\crbro\Documents\GitHub\Levent_Development\game_development_using_C++_final\SDL_solution\Debug\SDL_intro.exe

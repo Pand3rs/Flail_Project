@@ -1,0 +1,362 @@
+#include <iostream>
+#include <assert.h>
+#include <time.h> 
+using namespace std;
+
+//include SDL header
+#include "SDL2-2.0.8\include\SDL.h"
+#include "SDL2-2.0.8\include\SDL_image.h"
+
+//load libraries
+#pragma comment(lib,"SDL2-2.0.8\\lib\\x86\\SDL2.lib")
+#pragma comment(lib,"SDL2-2.0.8\\lib\\x86\\SDL2main.lib")
+
+#pragma comment(linker,"/subsystem:console")
+
+namespace Simulation
+{
+	SDL_Renderer *renderer = NULL;
+	int screen_width = 800;
+	int screen_height = 600;
+
+	unsigned char prev_key_state[256];
+	unsigned char *keys = NULL;
+
+	int rect_hw = 40;
+
+	const int nodes = 12;
+	float temp;
+	float cooling_rate = 0.95;
+	int starting_index;
+	int ending_index;
+	int solution_1[nodes];
+	int solution_2[nodes];
+	float fitness_1;
+	float fitness_2;
+
+	struct Stack
+	{
+		float *x_pos;
+		float *y_pos;
+		int n_data;
+		int size;
+	};
+	Stack points;
+
+	SDL_Rect rect[nodes];
+
+	/*
+	SDL_Texture* spriteSheet = NULL;
+	SDL_Rect textureRect;
+	SDL_Rect windowRect;
+	*/
+
+	void init_stack(Stack* p, unsigned int initial_size)
+	{
+		assert(initial_size != 0);
+		p->n_data = 0;
+		p->size = initial_size;
+		p->x_pos = (float*)malloc(sizeof(float)*p->size); assert(p->x_pos);
+		p->y_pos = (float*)malloc(sizeof(float)*p->size); assert(p->y_pos);
+	}
+
+	float calc_fitness(int *a)
+	{
+		float fitness = 0;
+
+		for (int i = 0; i < nodes - 1; i++)
+		{
+			float diff_x = points.x_pos[a[i]] + (rect_hw/2) - points.x_pos[a[i+1]] + (rect_hw / 2);
+			float diff_y = points.y_pos[a[i]] + (rect_hw / 2) - points.y_pos[a[i+1]] + (rect_hw / 2);
+			fitness += sqrt(diff_x * diff_x + diff_y * diff_y);
+		}
+		return fitness;
+	}
+
+	void create_random_nodes()
+	{
+		for (int i = 0; i < nodes; i++)
+		{
+			points.x_pos[i] = rand() % (screen_width - rect_hw);
+			points.y_pos[i] = rand() % (screen_height - rect_hw);
+		}
+	}
+
+	void retrieve_nodes()
+	{
+		create_random_nodes();
+	}
+
+	void generate_BandE()
+	{
+		starting_index = rand() % nodes;
+		ending_index = rand() % nodes;
+		while (starting_index == ending_index) ending_index = rand() % nodes;
+	}
+
+	void generate_solution()
+	{
+		for (int i = 0; i < nodes; i++)
+		{
+			solution_1[i] = i;
+		}
+
+		for (int i = nodes - 1; i > 0; i--)
+		{
+			int j = rand() % (i);
+			if (j == i) continue;
+
+			int tmp = solution_1[i];
+			solution_1[i] = solution_1[j];
+			solution_1[j] = tmp;
+		}
+
+		for (int i = 1; i < nodes; i++)
+		{
+			if (solution_1[i] == starting_index)
+			{
+				int tmp = solution_1[0];
+				solution_1[0] = starting_index;
+				solution_1[i] = tmp;
+			}
+
+			if (solution_1[i] == ending_index)
+			{
+				int tmp = solution_1[nodes - 1];
+				solution_1[nodes - 1] = ending_index;
+				solution_1[i] = tmp;
+			}
+		}
+	}
+
+	void modify_solution()
+	{
+		int a = 1 + (rand() % (nodes - 2));
+		int b = 1 + (rand() % (nodes - 2));
+
+		while (a == b)
+		{
+			b = 1 + (rand() % (nodes - 2));
+		}
+
+		int tmp = solution_2[a];
+		solution_2[a] = solution_2[b];
+		solution_2[b] = tmp;
+	}
+
+	void generate_everything()
+	{
+		retrieve_nodes();
+		generate_BandE();
+		generate_solution();
+		temp = 1.0;
+	}
+
+	void init()
+	{
+		SDL_Init(SDL_INIT_VIDEO);
+
+		/*
+			SDL_Surface* temp = IMG_Load("saitama_pink.png");
+			spriteSheet = SDL_CreateTextureFromSurface(renderer, temp);
+			SDL_FreeSurface(temp);
+
+			//'windowRect' defines the dimensions of the rendering sprite on window
+			windowRect.x = 0;
+			windowRect.y = 0;
+			windowRect.w = 140;
+			windowRect.h = 200;
+
+			//'textureRect' defines the dimensions of the rendering sprite on texture
+			textureRect.x = 0;
+			textureRect.y = 0;
+
+			//SDL_QueryTexture() method gets the width and height of the texture
+			SDL_QueryTexture(spriteSheet, NULL, NULL, &textureRect.w, &textureRect.h);
+			//Now, textureRect.w and textureRect.h are filled
+			//with respective dimensions of the image/texture
+
+			//As there are 8 frames with same width, we simply
+			//get the width of a frame by dividing with 8
+			textureRect.w /= 3;
+			//Height for each frame is the same as for the whole sheet/texture
+		*/
+
+		prev_key_state[256];
+		keys = (unsigned char*)SDL_GetKeyboardState(NULL);
+
+		SDL_Window *window = SDL_CreateWindow("Pizza Time", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screen_width, screen_height, SDL_WINDOW_SHOWN);
+
+		renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+		init_stack(&points, nodes);
+
+		generate_everything();
+	}
+
+	void update()
+	{
+		//copy previous key state
+		memcpy(prev_key_state, keys, 256);
+
+		//consume all window events, key state gets updated here automatically
+		SDL_Event event;
+		while (SDL_PollEvent(&event))
+		{
+			if (event.type == SDL_QUIT)
+			{
+				exit(0);
+			}
+		}
+
+		fitness_1 = calc_fitness(solution_1);
+		printf("fitness_1: %f\n", fitness_1);
+
+		for (int i = 0; i < nodes; i++)
+		{
+			solution_2[i] = solution_1[i];
+		}
+
+		modify_solution();
+
+		fitness_2 = calc_fitness(solution_2);
+		printf("fitness_2: %f\n", fitness_2);
+
+		float fitness_diff = fitness_1 - fitness_2;
+		double p;
+
+		if (fitness_2 < fitness_1)
+		{
+			printf("fitness_2 was better\n\n");
+			for (int i = 0; i < nodes; i++)
+			{
+				solution_1[i] = solution_2[i];
+			}
+		}
+		else
+		{
+			p = (double)rand() / RAND_MAX;
+			
+			if (p < exp(fitness_diff / temp))
+			{
+				printf("temp selected fitness_2\n\n");
+				for (int i = 0; i < nodes; i++)
+				{
+					solution_1[i] = solution_2[i];
+				}
+			}
+			else
+			{
+				printf("stuck with fitness_1\n\n");
+			}
+		}
+
+		temp *= cooling_rate;
+
+		/*
+		if (temp < 0.005)
+		{
+			SDL_Rect srcrect = { 0, 0, 32, 64 };
+			SDL_Rect dstrect = { 10, 10, 32, 64 };
+
+			//Total number of frames of the animation
+			int totalFrames = 3;
+
+			//Amount of delay in milliseconds for each frame
+			int delayPerFrame = 100;
+
+			//SDL_GetTicks() method gives us the time in milliseconds
+
+			//'frame' will give us the index of frame we want to render
+			//For example, if 'frame' is 2, it will give us the third frame
+			int frame = (SDL_GetTicks() / delayPerFrame) % totalFrames;
+
+			//The index of frame is multiplied by the width of the frame
+			//This will give us the appropriate
+			//frame dimensions from the sprite sheet
+			textureRect.x = frame * textureRect.w;
+
+			SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+			SDL_RenderClear(renderer);
+
+			//Copying the texture on to the window using
+			//renderer, texture rectangle and window rectangle
+			SDL_RenderCopy(renderer, spriteSheet, &textureRect, &windowRect);
+
+			SDL_RenderPresent(renderer);
+		}
+		*/
+
+		if (temp < 0.0001)
+		{
+			printf("found route\n\n Press any key to restart\n\n");
+			getchar();
+			generate_everything();
+		}
+	}
+
+	void draw()
+	{
+		//set color to white
+		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+		//clear screen with white
+		SDL_RenderClear(renderer);
+
+		for (int i = 0; i < nodes; i++)
+		{
+			rect[i].x = points.x_pos[solution_1[i]];
+			rect[i].y = points.y_pos[solution_1[i]];
+			rect[i].w = rect_hw;
+			rect[i].h = rect_hw;
+
+			SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
+
+			if (i == 0)
+			{
+				SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+			}
+
+			if (i == nodes - 1)
+			{
+				SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+			}
+
+			SDL_RenderFillRect(renderer, &rect[i]);
+		}
+
+		for (int i = 1; i < nodes; i++)
+		{
+			SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+			SDL_RenderDrawLine(renderer, 
+				points.x_pos[solution_1[i - 1]] + (rect_hw / 2), 
+				points.y_pos[solution_1[i - 1]] + (rect_hw / 2), 
+				points.x_pos[solution_1[i]] + (rect_hw / 2), 
+				points.y_pos[solution_1[i]] + (rect_hw / 2));
+		}
+
+		SDL_RenderPresent(renderer);
+	}
+}
+
+int main(int argc, char **argv)
+{
+	srand(time(0));
+	Simulation::init();
+
+	unsigned int t1 = SDL_GetTicks();
+	unsigned int t2;
+
+	for (;;)
+	{
+		t2 = SDL_GetTicks();
+		if (t2 - t1 > 50)
+		{
+			Simulation::update();
+
+			Simulation::draw();
+			t1 = t2;
+		}
+	}
+	//SDL_DestroyTexture(Simulation::spriteSheet);
+	return 0;
+}
