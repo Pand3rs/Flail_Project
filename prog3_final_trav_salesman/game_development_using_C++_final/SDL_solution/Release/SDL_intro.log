@@ -1,17 +1,17 @@
 ﻿  main.cpp
-c:\users\crbro\documents\github\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(28): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\crbro\documents\github\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(75): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\crbro\documents\github\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(76): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\crbro\documents\github\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(246): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-c:\users\crbro\documents\github\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(247): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-c:\users\crbro\documents\github\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(273): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\crbro\documents\github\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(272): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\crbro\documents\github\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(271): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\crbro\documents\github\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(270): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\crbro\documents\github\levent_development\game_development_using_c++_final\sdl_solution\main.cpp(282): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\crbro\desktop\projects!!!!\prog3_final\game_development_using_c++_final\sdl_solution\main.cpp(29): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\crbro\desktop\projects!!!!\prog3_final\game_development_using_c++_final\sdl_solution\main.cpp(80): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\crbro\desktop\projects!!!!\prog3_final\game_development_using_c++_final\sdl_solution\main.cpp(81): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\crbro\desktop\projects!!!!\prog3_final\game_development_using_c++_final\sdl_solution\main.cpp(292): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\crbro\desktop\projects!!!!\prog3_final\game_development_using_c++_final\sdl_solution\main.cpp(293): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\crbro\desktop\projects!!!!\prog3_final\game_development_using_c++_final\sdl_solution\main.cpp(319): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\crbro\desktop\projects!!!!\prog3_final\game_development_using_c++_final\sdl_solution\main.cpp(318): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\crbro\desktop\projects!!!!\prog3_final\game_development_using_c++_final\sdl_solution\main.cpp(317): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\crbro\desktop\projects!!!!\prog3_final\game_development_using_c++_final\sdl_solution\main.cpp(316): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\crbro\desktop\projects!!!!\prog3_final\game_development_using_c++_final\sdl_solution\main.cpp(328): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   Generating code
-  1 of 21 functions ( 4.8%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
+  2 of 23 functions ( 8.7%) were compiled, the rest were copied from previous compilation.
+    1 functions were new in current compilation
     1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-  SDL_intro.vcxproj -> C:\Users\crbro\Documents\GitHub\Levent_Development\game_development_using_C++_final\SDL_solution\Release\SDL_intro.exe
+  SDL_intro.vcxproj -> C:\Users\crbro\Desktop\Projects!!!!\prog3_final\game_development_using_C++_final\SDL_solution\Release\SDL_intro.exe
