@@ -1,6 +1,7 @@
 #include <iostream>
 #include <assert.h>
 #include <time.h> 
+#include <cmath> 
 using namespace std;
 
 //include SDL header
@@ -205,7 +206,7 @@ namespace Simulation
 		}
 
 		fitness_1 = calc_fitness(solution_1);
-		printf("fitness_1: %f\n", fitness_1);
+		//printf("fitness_1: %f\n", fitness_1);
 
 		for (int i = 0; i < nodes; i++)
 		{
@@ -215,13 +216,13 @@ namespace Simulation
 		modify_solution_2();
 
 		fitness_2 = calc_fitness(solution_2);
-		printf("fitness_2: %f\n", fitness_2);
+		//printf("fitness_2: %f\n", fitness_2);
 
 		float fitness_diff = fitness_1 - fitness_2;
 
 		if (fitness_2 < fitness_1)
 		{
-			printf("fitness_2 was better\n\n");
+			//printf("fitness_2 was better\n\n");
 			for (int i = 0; i < nodes; i++)
 			{
 				solution_1[i] = solution_2[i];
@@ -230,7 +231,10 @@ namespace Simulation
 		else
 		{
 			double p = (double)rand() / RAND_MAX;
-			printf("p is: %f fit_diff is : %f temp is: %f  exp of them is: %f\n\n", p, fitness_diff, temp, exp(fitness_diff / temp));
+			if (exp(fitness_diff / temp) > 0)
+			{
+				printf("p is: %f fit_diff is : %f temp is: %f  exp of them is: %f\n\n", p, fitness_diff, temp, exp(fitness_diff / temp));
+			}
 			if (p < exp(fitness_diff / temp))
 			{
 				printf("temp selected fitness_2\n\n");
@@ -241,12 +245,12 @@ namespace Simulation
 			}
 			else
 			{
-				printf("stuck with fitness_1\n\n");
+				//printf("stuck with fitness_1\n\n");
 			}
 		}
 
 		temp *= cooling_rate;
-		printf("ftemp is: %f\n", temp);
+		//printf("ftemp is: %f\n", temp);
 		/*
 		if (temp < 0.005)
 		{
@@ -275,7 +279,7 @@ namespace Simulation
 		if (temp < 0.0001)
 		{
 			printf("found route\n\n Press any key to restart\n\n");
-			getchar();
+			//getchar();
 			generate_everything();
 		}
 	}
