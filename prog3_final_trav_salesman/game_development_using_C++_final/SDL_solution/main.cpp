@@ -25,7 +25,7 @@ namespace Simulation
 
 	int rect_hw = 40;
 
-	const int nodes = 12;
+	const int nodes = 6;
 	float temp = 1;
 	float cooling_rate = 0.98;
 	int starting_index = 0;
@@ -231,13 +231,10 @@ namespace Simulation
 		else
 		{
 			double p = (double)rand() / RAND_MAX;
-			if (exp(fitness_diff / temp) > 0)
+			
+			if (p < exp(fitness_diff / (temp * 200)))
 			{
-				printf("p is: %f fit_diff is : %f temp is: %f  exp of them is: %f\n\n", p, fitness_diff, temp, exp(fitness_diff / temp));
-			}
-			if (p < exp(fitness_diff / temp))
-			{
-				printf("temp selected fitness_2\n\n");
+				//printf("temp selected fitness_2\n\n");
 				for (int i = 0; i < nodes; i++)
 				{
 					solution_1[i] = solution_2[i];
@@ -278,7 +275,7 @@ namespace Simulation
 
 		if (temp < 0.0001)
 		{
-			printf("found route\n\n Press any key to restart\n\n");
+			//printf("found route\n\n Press any key to restart\n\n");
 			//getchar();
 			generate_everything();
 		}
